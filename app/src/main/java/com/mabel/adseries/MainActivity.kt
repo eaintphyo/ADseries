@@ -1,5 +1,6 @@
 package com.mabel.adseries
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -8,15 +9,19 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.mabel.adseries.details.ForecastDetailsActivity
 
 class MainActivity : AppCompatActivity() {
 
     private val forecastRepository = ForecastRepository()
+    private lateinit var tempDisplaySettingManager: TempDisplaySettingManager
 
     // region Setup Methods
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        tempDisplaySettingManager = TempDisplaySettingManager(this)
 
         var zipcodeEditText: EditText = findViewById(R.id.edZipcode)
         var enterButton: Button = findViewById(R.id.enterButton)
@@ -34,9 +39,8 @@ class MainActivity : AppCompatActivity() {
 
         val forecastList: RecyclerView = findViewById(R.id.forecastList)
         forecastList.layoutManager = LinearLayoutManager(this)
-        val dailyForecastAdapter = DailyForecastAdapter() {
-            val msg = getString(R.string.forecast_clicked_format, it.temp, it.description)
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+        val dailyForecastAdapter = DailyForecastAdapter(tempDisplaySettingManager) { forecast ->
+            showForecastDetails(forecast)
         }
         forecastList.adapter = dailyForecastAdapter
 
@@ -47,29 +51,10 @@ class MainActivity : AppCompatActivity() {
         forecastRepository.weeklyForecast.observe(this, weeklyForecastObserver)
     }
 
-    override fun onStart() {
-        super.onStart()
+    private fun showForecastDetails(forecast: DailyForecast) {
+        val forecastDetailsIntent = Intent(this, ForecastDetailsActivity::class.java)
+        forecastDetailsIntent.putExtra("key_temp", forecast.temp)
+        forecastDetailsIntent.putExtra("key_description", forecast.description)
+        startActivity(forecastDetailsIntent)
     }
-
-    override fun onResume() {
-        super.onResume()
-    }
-
-    // endregion Setup Methods
-
-    // region Teardown Methods
-
-    override fun onPause() {
-        super.onPause()
-    }
-
-    override fun onStop() {
-        super.onStop()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
-    // endregion Teardown Methods
 }
