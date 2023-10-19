@@ -2,61 +2,18 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="@dimen/zipcode_entry_icon_size"
-        android:layout_height="@dimen/zipcode_entry_icon_size"
-        android:src="@drawable/ic_location_24"
-        app:layout_constraintBottom_toTopOf="@+id/labelZipcode"
-        app:layout_constraintEnd_toEndOf="@+id/labelZipcode"
-        app:layout_constraintStart_toStartOf="@+id/labelZipcode" />
-
-    <TextView
-        android:id="@+id/labelZipcode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enter your zipcode"
-        android:textSize="@dimen/title_text_height"
-        app:layout_constraintBottom_toTopOf="@+id/edZipcode"
-        app:layout_constraintEnd_toEndOf="@+id/edZipcode"
-        app:layout_constraintStart_toStartOf="@+id/edZipcode" />
-
-    <EditText
-        android:id="@+id/edZipcode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Enter zipcode"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.253" />
-
-    <Button
-        android:id="@+id/enterButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SUBMIT ZIPCODE"
-        app:layout_constraintEnd_toEndOf="@+id/edZipcode"
-        app:layout_constraintStart_toStartOf="@+id/edZipcode"
-        app:layout_constraintTop_toBottomOf="@+id/edZipcode" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/forecastList"
-        android:layout_width="0dp"
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="#ABABAB"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enterButton" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
