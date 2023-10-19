@@ -2,6 +2,11 @@ package com.mabel.adseries
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toolbar
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mabel.adseries.forecast.CurrentForecastFragment
 import com.mabel.adseries.location.LocationEntryFragment
 
@@ -17,25 +22,27 @@ class MainActivity : AppCompatActivity(), AppNavigator {
 
         tempDisplaySettingManager = TempDisplaySettingManager(this)
 
-        supportFragmentManager
-            .beginTransaction()
-            .add(R.id.fragmentContainer, LocationEntryFragment())
-            .commit()
+        val navController = findNavController(R.id.nav_host_fragment)
+//        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar).setTitle(R.string.app_name)
+        findViewById<BottomNavigationView>(R.id.bottomNavigationView).setupWithNavController(navController)
     }
 
 
     override fun navigateToCurrentForecast(zipcode: String) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fragmentContainer, CurrentForecastFragment.newInstance(zipcode))
-            .commit()
+        findNavController(R.id.nav_host_fragment).navigate(R.id.action_locationEntryFragment_to_currentForecastFragment)
 
     }
 
     override fun navigateToLocationEntry() {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fragmentContainer, LocationEntryFragment())
-            .commit()
+        findNavController(R.id.nav_host_fragment).navigate(R.id.action_currentForecastFragment_to_locationEntryFragment)
+    }
+
+    override fun navigateToForecastDetails(forecast: DailyForecast) {
+        val bundle = Bundle().apply {
+            putFloat("temp", forecast.temp)
+            putString("description",forecast.description)
+        }
+        findNavController(R.id.nav_host_fragment).navigate(R.id.action_currentForecastFragment_to_forecastDetailsFragment, bundle)
     }
 }
